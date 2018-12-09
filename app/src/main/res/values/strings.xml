@@ -2,8 +2,27 @@
     <string name="app_name">WeatherApp</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">The best Weather Application</string>
+    <string name="nav_header_desc">Navigation header icon</string>
+    <string name="nav_header_subtitle">Softon - Marny Lopez</string>
+    <string name="nav_option_cities">Cities</string>
+    <string name="nav_option_about">About this application</string>
+
     <string name="action_settings">Settings</string>
+    <string name="alert_settings_title">Settings</string>
+    <string name="alert_settings_content">You tapped the alert dialog!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="API_key" translatable="false">d311c8475c05d20a002fe84ffbe77767</string>
+    <string name="API_cities_list" translatable="false">https://api.openweathermap.org/data/2.5/find?</string>
+
+    <string name="Toast_LocationNeeded">The application needs the location services to show you cities near you</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

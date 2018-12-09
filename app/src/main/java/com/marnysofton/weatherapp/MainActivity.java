@@ -1,8 +1,14 @@
 package com.marnysofton.weatherapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +18,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.marnysofton.weatherapp.Fragment.AboutAppFragment;
+import com.marnysofton.weatherapp.Fragment.CitiesListFragment;
+import com.marnysofton.weatherapp.Model.City;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CitiesListFragment.OnListFragmentInteractionListener {
+
+    private ArrayList<City> cities;
+    private City selectedCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +38,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,6 +47,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        this.cities = ((ArrayList<City>) getIntent().getSerializableExtra("Cities"));
+        displaySelectedScreen(R.id.nav_cities);
+
     }
 
     @Override
@@ -61,41 +72,58 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(this);
+            }
+            builder.setTitle(getString(R.string.alert_settings_title))
+                    .setMessage(getString(R.string.alert_settings_content))
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        displaySelectedScreen(item.getItemId());
+        return true;
+    }
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+    @Override
+    public void onListFragmentInteraction(City item) {
+        this.selectedCity = item;
+        displaySelectedItem();
+    }
 
-        } else if (id == R.id.nav_slideshow) {
+    private void displaySelectedScreen(int itemId) {
 
-        } else if (id == R.id.nav_manage) {
+        Fragment selectedFragment = null;
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch(itemId){
+            case R.id.nav_cities:
+                selectedFragment = CitiesListFragment.newInstance(1,cities);
+                break;
+            case R.id.nav_about:
+                selectedFragment = AboutAppFragment.newInstance();
+                break;
         }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.citiesListFragment, selectedFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit(); //Commit fragment transaction to update user UI
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
+
+    private void displaySelectedItem(){
+        //TODO load the selected item from the selectedCity attribute;
+    }
+
+
 }
