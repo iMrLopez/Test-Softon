@@ -8,5 +8,11 @@ public class Coordinates implements Serializable {
     private String lon;
 
 
+    public String getLat() {
+        return lat;
+    }
 
+    public String getLon() {
+        return lon;
+    }
 }

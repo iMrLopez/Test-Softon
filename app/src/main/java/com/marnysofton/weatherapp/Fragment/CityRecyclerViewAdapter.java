@@ -1,5 +1,6 @@
 package com.marnysofton.weatherapp.Fragment;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,16 +31,16 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mCitiesLists.get(position);
         holder.mCityName.setText(mCitiesLists.get(position).getName());
-        holder.mCityTemp.setText(mCitiesLists.get(position).getTemperature());
+        holder.mCityTemp.setText(mCitiesLists.get(position).getMain().getTemp() + holder.itemView.getContext().getString(R.string.Celsius));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO finish the onclick
                 if (null != mListener) {
                     mListener.onListFragmentInteraction(holder.mItem);
                 }

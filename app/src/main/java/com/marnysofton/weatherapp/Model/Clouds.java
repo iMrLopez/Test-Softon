@@ -6,4 +6,7 @@ public class Clouds implements Serializable {
 
     private String all;
 
+    public String getAll() {
+        return all;
+    }
 }

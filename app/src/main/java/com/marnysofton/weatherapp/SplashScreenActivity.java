@@ -3,6 +3,7 @@ package com.marnysofton.weatherapp;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -57,37 +60,42 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void getActualUserLocation() {
-        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= 23) { // Marshmallow
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-            }
-        } else {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                Log.d("MLL","Got the user location properly");
-                                userLocation = location;
-                                performCallToApi();
-                                Log.d("MLL","Got the data from the API");
-                            }else{
-                                Log.d("MLL","Something weird happened, the user location was not retrieved");
-                                //TODO notify the user of this error in the screen layout
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e("MLL","Unable to get the user location");
-                    //TODO notify the user of this error in the screen layout
+            ((TextView)findViewById(R.id.text_loadStatus)).setText(R.string.loading_gettingLocation);
+            FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= 23) { // Marshmallow
+                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
                 }
-            });
-        }
+            } else {
+
+                mFusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                    Log.d("MLL","Got the user location properly");
+                                    ((TextView)findViewById(R.id.text_loadStatus)).setText(R.string.loading_gotLocation);
+                                    userLocation = location;
+                                    performCallToApi();
+                                    Log.d("MLL","Got the data from the API");
+                                    ((TextView)findViewById(R.id.text_loadStatus)).setText(R.string.loading_gotCities);
+                                }else{
+                                    Log.d("MLL","Something weird happened, the user location was not retrieved");
+                                    //TODO notify the user of this error in the screen layout
+                                    ((TextView)findViewById(R.id.text_loadStatus)).setText(R.string.loading_errCannotGetLocation);
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("MLL","Unable to get the user location");
+                        ((TextView)findViewById(R.id.text_loadStatus)).setText(R.string.loading_errCannotGetLocation);
+                    }
+                });
+            }
     }
 
     private void performCallToApi() {
@@ -107,7 +115,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("MLL","No response from API");
-                //TODO notify the user of this error in the screen layout
+                ((TextView)findViewById(R.id.text_loadStatus)).setText(R.string.loading_errCannotGetCities);
             }
         });
         queue.add(stringRequest);
@@ -135,7 +143,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Log.d("MLL","Cities NOT LOADED PROPERLY");
             e.printStackTrace();
-            //TODO Update UI for user as cities were not loaded
+            ((TextView)findViewById(R.id.text_loadStatus)).setText(R.string.loading_errCannotParseCities);
         }
     }
 

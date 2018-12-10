@@ -21,7 +21,43 @@ public class City implements Serializable {
         return name;
     }
 
-    public String getTemperature() {
-        return main.getTemp();
+    public int getId() {
+        return id;
+    }
+
+    public Coordinates getCoord() {
+        return coord;
+    }
+
+    public Principal getMain() {
+        return main;
+    }
+
+    public Wind getWind() {
+        return wind;
+    }
+
+    public Clouds getClouds() {
+        return clouds;
+    }
+
+    public Object getRain() {
+        return rain;
+    }
+
+    public Object getSnow() {
+        return snow;
+    }
+
+    public float getDt() {
+        return dt;
+    }
+
+    public Sys getSys() {
+        return sys;
+    }
+
+    public ArrayList<Weather> getWeather() {
+        return weather;
     }
 }

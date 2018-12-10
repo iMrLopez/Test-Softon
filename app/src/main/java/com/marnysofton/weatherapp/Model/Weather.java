@@ -1,7 +1,6 @@
 package com.marnysofton.weatherapp.Model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Weather implements Serializable {
         private int id;
@@ -9,4 +8,19 @@ public class Weather implements Serializable {
         private String description;
         private String icon;
 
+        public int getId() {
+                return id;
+        }
+
+        public String getMain() {
+                return main;
+        }
+
+        public String getDescription() {
+                return description;
+        }
+
+        public String getIcon() {
+                return icon;
+        }
 }

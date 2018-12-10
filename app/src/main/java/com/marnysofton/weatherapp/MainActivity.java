@@ -1,30 +1,30 @@
 package com.marnysofton.weatherapp;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.marnysofton.weatherapp.Fragment.AboutAppFragment;
 import com.marnysofton.weatherapp.Fragment.CitiesListFragment;
+import com.marnysofton.weatherapp.Fragment.CityDetailFragment;
 import com.marnysofton.weatherapp.Model.City;
 
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CitiesListFragment.OnListFragmentInteractionListener {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
             } else {
                 builder = new AlertDialog.Builder(this);
             }
-            builder.setTitle(getString(R.string.alert_settings_title))
+            builder.setTitle(getString(R.string.Settings))
                     .setMessage(getString(R.string.alert_settings_content))
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
@@ -122,7 +122,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void displaySelectedItem(){
-        //TODO load the selected item from the selectedCity attribute;
+        Fragment selectedFragment =  CityDetailFragment.newInstance(selectedCity);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if ( getResources().getBoolean(R.bool.isTablet)) { //Get to know if device is a tablet
+            findViewById(R.id.cityDetailFragment).setVisibility(View.VISIBLE);
+            transaction.replace(R.id.cityDetailFragment, selectedFragment);
+        } else {
+            transaction.replace(R.id.citiesListFragment, selectedFragment);
+        }
+
+        //transaction.replace(R.id.citiesListFragment, selectedFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.addToBackStack(selectedFragment.getClass().getSimpleName());
+        transaction.commit(); //Commit fragment transaction to update user UI
     }
 
 

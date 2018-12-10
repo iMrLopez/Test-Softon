@@ -1,11 +1,15 @@
 package com.marnysofton.weatherapp.Fragment;
 
 
+import android.annotation.SuppressLint;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.marnysofton.weatherapp.R;
 
@@ -17,7 +21,6 @@ public class AboutAppFragment extends Fragment {
     }
 
 
-    // TODO: Rename and change types and number of parameters
     public static AboutAppFragment newInstance() {
         AboutAppFragment fragment = new AboutAppFragment();
         Bundle args = new Bundle();
@@ -34,11 +37,22 @@ public class AboutAppFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about_app, container, false);
+        View view = inflater.inflate(R.layout.fragment_about_app, container, false);
+
+        try {
+            PackageInfo pinfo = view.getContext().getPackageManager().getPackageInfo(view.getContext().getPackageName(), 0);
+            ((TextView)view.findViewById(R.id.text_appVersion)).setText(view.getContext().getString(R.string.Version) + pinfo.versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return view;
+
     }
 
 }

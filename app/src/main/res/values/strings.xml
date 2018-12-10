@@ -1,28 +1,40 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="app_loading">Loading the application</string>
+
+    <string name="loading_gettingLocation">I am trying to get your location ;)</string>
+    <string name="loading_gotLocation">I got your location\nI am getting the cities around you</string>
+    <string name="loading_gotCities">I got the Cities around you\nLet\'s do something cool!</string>
+
+    <string name="loading_errCannotGetLocation">WHOOPS!\n I was not able to get your location.. Check that you have GPS enabled</string>
+    <string name="loading_errCannotGetCities">WHOOPS!\n I was not able to get cities around you.. Check that you have Internet access</string>
+    <string name="loading_errCannotParseCities">WHOOPS!\n I got the cities but I was not able to understand the result.. Please check your internet :o</string>
+    <string name="percentage">%</string>
+    <string name="metersec">Meters / Sec</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">The best Weather Application</string>
     <string name="nav_header_desc">Navigation header icon</string>
+    <string name="nav_header_about">More information of the application</string>
     <string name="nav_header_subtitle">Softon - Marny Lopez</string>
     <string name="nav_option_cities">Cities</string>
     <string name="nav_option_about">About this application</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="alert_settings_title">Settings</string>
-    <string name="alert_settings_content">You tapped the alert dialog!</string>
+    <string name="Settings">Settings</string>
+    <string name="Version">App Version: </string>
+    <string name="alert_settings_content">You tapped the settings button!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
+    <string name="Celsius"> Celsius</string>
     <string name="API_key" translatable="false">d311c8475c05d20a002fe84ffbe77767</string>
     <string name="API_cities_list" translatable="false">https://api.openweathermap.org/data/2.5/find?</string>
 
     <string name="Toast_LocationNeeded">The application needs the location services to show you cities near you</string>
 
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="app_description">
+        This is the best mobile application you can get from Google Play.
+        \nEquipped with location-based technology to detect your actual location.
+        \nThis application automatically displays the latest official weather forecasts for the cities closest to you from over 1,600 cities around the world.
+    </string>
 
 </resources>

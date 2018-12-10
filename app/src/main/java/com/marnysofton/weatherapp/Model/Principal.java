@@ -13,4 +13,20 @@ public class Principal implements Serializable {
     public String getTemp() {
         return temp;
     }
+
+    public String getPressure() {
+        return pressure;
+    }
+
+    public String getHumidity() {
+        return humidity;
+    }
+
+    public String getTemp_min() {
+        return temp_min;
+    }
+
+    public String getTemp_max() {
+        return temp_max;
+    }
 }
